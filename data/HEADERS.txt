@@ -1,0 +1,54 @@
+== VCSEL_QRNG_raw_bits.txt
+HTTP/1.1 200 OK
+server: nginx
+content-type: text/plain; charset=utf-8
+content-length: 12115348026
+vary: Accept-Encoding
+content-security-policy: default-src 'self' fonts.googleapis.com *.gstatic.com data: 'unsafe-inline' 'unsafe-eval' blob: zenodo-broker.web.cern.ch zenodo-broker-qa.web.cern.ch maxcdn.bootstrapcdn.com cdnjs.cloudflare.com ajax.googleapis.com webanalytics.web.cern.ch
+x-content-type-options: nosniff
+x-download-options: noopen
+x-permitted-cross-domain-policies: none
+x-frame-options: sameorigin
+x-xss-protection: 1; mode=block
+content-disposition: inline
+last-modified: Sat, 24 Oct 2026 02:42:16 GMT
+cache-control: no-cache
+date: Sat, 07 Nov 2026 12:16:00 GMT
+link: <https://zenodo.org/records/13846698> ; rel="collection" ; type="text/html" , <https://zenodo.org/api/records/13846698> ; rel="linkset" ; type="application/linkset+json"
+x-ratelimit-limit: 133
+x-ratelimit-remaining: 132
+x-ratelimit-reset: 1794053821
+retry-after: 60
+permissions-policy: interest-cohort=()
+strict-transport-security: max-age=31556926; includeSubDomains
+referrer-policy: strict-origin-when-cross-origin
+set-cookie: session=18086520ec6b5340_6aef1680.5EOA3bm25wWytvBAV87XPL0GGbo; Expires=Thu, 12 Nov 2026 12:16:00 GMT; Secure; HttpOnly; Path=/; SameSite=Lax
+x-source: ui
+
+== VCSEL_QRNG_postprocessed_bits.txt
+HTTP/1.1 200 OK
+server: nginx
+content-type: text/plain; charset=utf-8
+content-length: 7918991918
+vary: Accept-Encoding
+content-security-policy: default-src 'self' fonts.googleapis.com *.gstatic.com data: 'unsafe-inline' 'unsafe-eval' blob: zenodo-broker.web.cern.ch zenodo-broker-qa.web.cern.ch maxcdn.bootstrapcdn.com cdnjs.cloudflare.com ajax.googleapis.com webanalytics.web.cern.ch
+x-content-type-options: nosniff
+x-download-options: noopen
+x-permitted-cross-domain-policies: none
+x-frame-options: sameorigin
+x-xss-protection: 1; mode=block
+content-disposition: inline
+last-modified: Thu, 15 Oct 2026 19:07:23 GMT
+cache-control: no-cache
+date: Sat, 07 Nov 2026 12:16:00 GMT
+link: <https://zenodo.org/records/13846698> ; rel="collection" ; type="text/html" , <https://zenodo.org/api/records/13846698> ; rel="linkset" ; type="application/linkset+json"
+x-ratelimit-limit: 133
+x-ratelimit-remaining: 131
+x-ratelimit-reset: 1794053821
+retry-after: 60
+permissions-policy: interest-cohort=()
+strict-transport-security: max-age=31556926; includeSubDomains
+referrer-policy: strict-origin-when-cross-origin
+set-cookie: session=b2efefe940ba887_6aef1680.PQ6sibbJ7tehW67qsTgMXaNrRVA; Expires=Thu, 12 Nov 2026 12:16:00 GMT; Secure; HttpOnly; Path=/; SameSite=Lax
+x-source: ui
+

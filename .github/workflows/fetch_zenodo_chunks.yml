@@ -1,0 +1,60 @@
+name: fetch-zenodo-chunks
+# Downloads contiguous head/tail chunks (128 MiB each) of the two VCSEL QRNG files of Zenodo
+# record 13846698 (Crespo et al. 2024, CC BY 4.0) on a GitHub-hosted runner and commits them
+# gzipped to this repository, with sha256 of the plaintext chunks and of the gzip files.
+on:
+  push:
+    paths: ['.github/workflows/fetch_zenodo_chunks.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    env:
+      U: https://zenodo.org/records/13846698/files
+      CHUNK: "134217728"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record remote metadata
+        shell: bash {0}
+        run: |
+          mkdir -p data
+          for f in VCSEL_QRNG_raw_bits.txt VCSEL_QRNG_postprocessed_bits.txt; do
+            echo "== $f" >> data/HEADERS.txt
+            curl -sSIL "$U/$f?download=1" >> data/HEADERS.txt
+          done
+          curl -sSL "https://zenodo.org/api/records/13846698" -o data/zenodo_record_13846698.json
+          cat data/HEADERS.txt
+      - name: Download chunks
+        shell: bash {0}
+        run: |
+          get_head () {  # $1 = remote file, $2 = local name
+            curl -sSL -r 0-$((CHUNK-1)) --max-filesize 150000000 "$U/$1?download=1" -o "data/$2"
+            if [ "$(stat -c %s "data/$2" 2>/dev/null || echo 0)" != "$CHUNK" ]; then
+              echo "range head failed for $1, falling back to streaming"
+              curl -sSL "$U/$1?download=1" | head -c "$CHUNK" > "data/$2"
+            fi
+          }
+          get_tail () {
+            curl -sSL -r -"$CHUNK" --max-filesize 150000000 "$U/$1?download=1" -o "data/$2" || echo "tail range failed for $1 (exit $?)"
+          }
+          get_head VCSEL_QRNG_raw_bits.txt           VCSEL_raw_head.txt
+          get_head VCSEL_QRNG_postprocessed_bits.txt VCSEL_post_head.txt
+          get_tail VCSEL_QRNG_raw_bits.txt           VCSEL_raw_tail.txt
+          get_tail VCSEL_QRNG_postprocessed_bits.txt VCSEL_post_tail.txt
+          ls -l data
+      - name: Hash, compress, commit
+        shell: bash {0}
+        run: |
+          cd data
+          sha256sum VCSEL_*.txt > SHA256SUMS_plaintext.txt
+          for f in VCSEL_*.txt; do head -c 64 "$f" | od -c | head -3 > "$f.head_od.txt"; gzip -6 "$f"; done
+          sha256sum *.gz > SHA256SUMS_gz.txt
+          ls -l
+          cd ..
+          git config user.name "qrng-audit-workflow"
+          git config user.email "qrng-audit-workflow@users.noreply.github.com"
+          git add data
+          git commit -m "Add VCSEL QRNG head/tail chunks (128 MiB each, gzipped) from Zenodo 13846698"
+          git push
